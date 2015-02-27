@@ -35,7 +35,7 @@ char	**lst_to_tab(t_var *lst)
 		*tab++ = ft_strtriconcat(lst->index, "=", lst->value);
 		lst = lst->next;
 	}
-	return (tab);
+	return (start);
 }
 
 void	rm_erzat(char **tab)

@@ -32,7 +32,6 @@ void	launcher(char *cmd, char **arg)
 	char	**erzat;
 	int		childs;
 	pid_t	father;
-	t_var	*vars;
 
 	if (!cmd)
 		return ;
@@ -41,9 +40,8 @@ void	launcher(char *cmd, char **arg)
 	if (father > 0)
 		wait(&childs);
 	else
-	{	
-		vars = env_s()->var;
-		erzat = lst_to_tab(vars);
+	{
+		erzat = lst_to_tab(env_s()->var);
 		execve(cmd, arg, erzat);
 		rm_erzat(erzat);
 	}

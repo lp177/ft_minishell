@@ -29,5 +29,5 @@ void	cd(char *path)
 		ft_putstrerrno("Please give me a valid path guy.\n");
 		return ;
 	}
-	setenv("PATH", path, 1);
+	setenv("PWD", path, 1);
 }
