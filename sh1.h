@@ -13,6 +13,8 @@
 #ifndef SH1_H
 # define SH1_H
 # define BUFF 1024
+# include <stdio.h>
+# include <signal.h>
 # include "libft/includes/libft.h"
 # include "struct.h"
 

@@ -12,6 +12,19 @@
 
 #include "sh1.h"
 
+void	load_default_env(t_env *e)
+{
+	char	*path;
+
+	ft_putendl("Load default env...");
+	if (!(path = getcwd(NULL, 0)))
+		ft_error("You are definitely lost in the space,\
+			we haven't path for your actual location.");
+	e->var = new_var("PWD", path, NULL);
+	new_var("PATH", "/bin", e->var);
+	ft_putendl("Done.");
+}
+
 void	get_variables(t_env *e)
 {
 	int			i;
@@ -29,12 +42,14 @@ void	get_variables(t_env *e)
 			ft_error("That variable is not a variable :/\n\
 					Have realistic obliging to stop to smoke thx.");
 		if (!(index = ft_strndup(environ[i], sep - environ[i]))
-		 || !(vars = new_var(index, (sep + 1), vars)))
+		|| !(vars = new_var(index, (sep + 1), vars)))
 			return ;
 		if (!e->var)
 			e->var = vars;
 		free(index);
 	}
+	if (!e->var)
+		load_default_env(e);
 }
 
 void	var_add(t_var **vars, t_var *new_var)
