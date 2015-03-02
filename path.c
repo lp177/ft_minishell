@@ -59,6 +59,9 @@ char	*octopus(char *cmd)
 	char	**path;
 
 	i = -1;
+	if (cmd && cmd[0] == '/' &&
+		access(cmd, F_OK) != -1 && access(cmd, X_OK) != -1)
+		return (ft_strdup(cmd));
 	path = env_s()->path;
 	cmd = ft_strconcat("/", cmd);
 	while (path[++i] && access((tmp = ft_strconcat(path[i], cmd)), F_OK) == -1)
