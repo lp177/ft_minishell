@@ -12,18 +12,6 @@
 
 #include "sh1.h"
 
-void	you_are_here(void)
-{
-	char *path;
-
-	path = NULL;
-	path = getcwd(path, 0);
-	ft_putstr("\033[1;32m[");
-	ft_putstr(path);
-	ft_putstr("]\033[0m");
-	free(path);
-}
-
 char	**clean_path(char **path)
 {
 	int	y;
@@ -43,6 +31,18 @@ char	**clean_path(char **path)
 	return (path);
 }
 
+void	rm_path(char **path)
+{
+	int	i;
+
+	if (!path || !*path)
+		return ;
+	i = -1;
+	while (path[++i])
+		free(path[i]);
+	free(path);
+}
+
 char	**get_path(void)
 {
 	t_var	*path;
@@ -59,23 +59,24 @@ char	*octopus(char *cmd)
 	char	**path;
 
 	i = -1;
-	if (cmd && cmd[0] == '/' &&
+	if (cmd && (cmd[0] == '/' || cmd[0] == '.' || cmd[1] == '/') &&
 		access(cmd, F_OK) != -1 && access(cmd, X_OK) != -1)
 		return (ft_strdup(cmd));
-	path = env_s()->path;
+	if (!(path = get_path()))
+		ft_putstrerrno("Program not found.\n");
 	cmd = ft_strconcat("/", cmd);
 	while (path[++i] && access((tmp = ft_strconcat(path[i], cmd)), F_OK) == -1)
-		if (tmp)
-			free(tmp);
-	if (path[i])
 	{
-		if (access(tmp, X_OK) == -1)
-			ft_putstrerrno("No permissions for execute this program.\n");
-		free(cmd);
-		return (tmp);
+		(tmp) ? free(tmp) : (void)tmp;
+		tmp = NULL;
 	}
-	else
-		ft_putstrerrno("Program not found.\n");
-	free(cmd);
-	return (NULL);
+	if (!path[i] || !tmp || access(tmp, X_OK) == -1)
+	{
+		(tmp) ? free(tmp) : (void)tmp;
+		tmp = NULL;
+		(!path[i] || !tmp) ? ft_putstrerrno("Program not found.\n") :
+		ft_putstrerrno("No permissions for execute this program.\n");
+	}
+	(cmd) ? free(cmd) : (void)cmd;
+	return (tmp);
 }

@@ -20,7 +20,9 @@ void	launch_env(char **arg)
 	{
 		if (!ft_strcmp(arg[1], "-i"))
 		{
-			if (!arg[2] || !ft_strcmp(arg[2], "cd"))
+			if (!arg[2] || !ft_strcmp(arg[2], "cd")
+				|| !ft_strcmp(arg[2], "setenv")
+				|| !ft_strcmp(arg[2], "unsetenv"))
 				return ;
 			if (!(cmd = octopus(arg[2])))
 				ft_putendl("Program not found");
@@ -40,16 +42,32 @@ void	launch_env(char **arg)
 
 void	launch_setenv(char **arg)
 {
-	if (!arg[0] || !arg[1] || !arg[2] || !arg[3])
-		ft_putendl("Bad arguments.");
-	else
-		setenv(arg[1], arg[2], ft_atoi(arg[3]));
+	char	*tmp;
+	char	**cast;
+
+	cast = NULL;
+	if (!arg[0] || !arg[1] || (arg[2] && arg[3] && arg[4]))
+	{
+		ft_putendl("Bad arguments. (setenv index value overwrite)");
+		return ;
+	}
+	if (!arg[2])
+		cast = explode(arg[1], "=");
+	if ((arg[2] && (ft_strchr(arg[1], '=') || ft_strchr(arg[2], '=')))
+		|| ft_strchr(((tmp = ft_strchr(arg[1], '='))) ? tmp + 1 : NULL, '='))
+	{
+		ft_putendl("Bad syntax. I don't want more than one equal.");
+		return ;
+	}
+	setenv((!arg[2] && cast) ? cast[0] : arg[1],
+		(!arg[2] && cast[1]) ? cast[1] : arg[2],
+		(!arg[3]) ? 0 : ft_atoi(arg[3]));
 }
 
 void	launch_unsetenv(char **arg)
 {
-	if (!arg[0] || !arg[1])
-		ft_putendl("bad arguments.");
+	if (!arg[0] || !arg[1] || arg[2])
+		ft_putendl("bad arguments. (unsetenv index)");
 	else
 		unsetenv(arg[1]);
 }

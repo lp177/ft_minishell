@@ -17,7 +17,7 @@ char	**lst_to_tab(t_var *lst)
 	size_t	len;
 	t_var	*tmp;
 	char	**tab;
-	char	**start;
+	int		i;
 
 	len = 0;
 	tmp = lst;
@@ -27,25 +27,27 @@ char	**lst_to_tab(t_var *lst)
 		lst = lst->next;
 	}
 	if (len < 1 || !(tab = (char **)ft_memalloc(sizeof(char *) * len + 1)))
+	{
 		return (NULL);
+	}
 	lst = tmp;
-	start = tab;
+	i = -1;
 	while (lst)
 	{
-		*tab++ = ft_strtriconcat(lst->index, "=", lst->value);
+		tab[++i] = ft_strtriconcat(lst->index, "=", lst->value);
 		lst = lst->next;
 	}
-	return (start);
+	return (tab);
 }
 
 void	rm_erzat(char **tab)
 {
-	char	**start;
+	int	i;
 
 	if (!tab || !*tab)
 		return ;
-	start = tab;
-	while (*tab)
-		free(*tab++);
-	free(start);
+	i = -1;
+	while (tab[++i])
+		free(tab[i]);
+	free(tab);
 }

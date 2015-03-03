@@ -85,9 +85,9 @@ int		setenv(const char *index, const char *value, int add)
 		var_add(&(env_s()->var), tmp);
 		return (1);
 	}
-	if (add)
+	if (add == 1)
 	{
-		free(var->value);
+		(var->value) ? free(var->value) : (void)var->value;
 		var->value = ft_strdup((char *)value);
 	}
 	else

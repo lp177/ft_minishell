@@ -30,7 +30,6 @@ void	cd(char *path)
 	{
 		if (tmp)
 			free(tmp);
-		ft_putendl(path);
 		ft_putstrerrno("Please give me a valid path guy.\n");
 		return ;
 	}

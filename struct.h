@@ -24,7 +24,6 @@ typedef struct	s_var
 typedef struct	s_env
 {
 	char		**table;
-	char		**path;
 	t_var		*var;
 	short		job;
 	short		env_i;

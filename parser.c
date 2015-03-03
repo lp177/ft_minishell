@@ -58,15 +58,13 @@ char	*read_line(void)
 		end = scan_line(buff);
 		tmp = line;
 		line = ft_strconcat(line, buff);
-		if (tmp)
-			free(tmp);
+		(tmp) ? free(tmp) : (void)tmp;
 		tmp = line;
 		line = ft_strtrim(line);
-		if (tmp)
-			free(tmp);
+		(tmp) ? free(tmp) : (void)tmp;
 		ft_bzero(buff, (BUFF));
 	}
-	free(buff);
+	(buff) ? free(buff) : (void)buff;
 	return (line);
 }
 
@@ -79,7 +77,7 @@ void	read_cmd(void)
 	buff = read_line();
 	if (!buff || !*buff)
 	{
-		if (!buff)
+		if (!buff && !env_s()->job)
 			ft_error("\nBye.");
 		else
 			return ;
@@ -89,7 +87,7 @@ void	read_cmd(void)
 	cmd = arg[0];
 	if (!builtin(cmd, arg) && (cmd = octopus(cmd)))
 		launcher(cmd, arg);
-	free(buff);
+	(buff) ? free(buff) : (void)buff;
 	while (*arg)
 		free(*arg++);
 }

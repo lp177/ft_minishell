@@ -12,6 +12,19 @@
 
 #include "sh1.h"
 
+void	you_are_here(void)
+{
+	char *path;
+
+	path = NULL;
+	if (!(path = getcwd(path, 0)))
+		return ;
+	ft_putstr("\033[1;32m[");
+	ft_putstr(path);
+	ft_putstr("]\033[0m");
+	free(path);
+}
+
 void	exit_msg(int id)
 {
 	int	c;
@@ -40,7 +53,6 @@ void	sh1(void)
 	e = env_s();
 	if (!e)
 		ft_error("Not authorized to create a env.");
-	e->path = get_path();
 	while (1)
 	{
 		you_are_here();
@@ -57,6 +69,7 @@ void	launcher(char *cmd, char **arg)
 
 	if (!cmd)
 		return ;
+	erzat = NULL;
 	e = env_s();
 	childs = -1;
 	father = fork();
@@ -65,14 +78,13 @@ void	launcher(char *cmd, char **arg)
 	{
 		wait(&childs);
 		e->job = 0;
+		rm_erzat(erzat);
 	}
 	else
 	{
 		erzat = (e->env_i) ? NULL : lst_to_tab(e->var);
 		e->env_i = 0;
 		execve(cmd, arg, erzat);
-		if (erzat)
-			rm_erzat(erzat);
 	}
-	free(cmd);
+	(cmd) ? free(cmd) : (void)cmd;
 }
