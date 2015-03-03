@@ -57,6 +57,7 @@ char	*octopus(char *cmd)
 	int		i;
 	char	*tmp;
 	char	**path;
+
 	i = -1;
 	if (cmd && cmd[0] == '/' &&
 		access(cmd, F_OK) != -1 && access(cmd, X_OK) != -1)
