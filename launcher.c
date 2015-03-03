@@ -14,7 +14,7 @@
 
 void	exit_msg(int id)
 {
-	char	c;
+	int	c;
 
 	(void)id;
 	if (env_s()->job)
@@ -23,8 +23,11 @@ void	exit_msg(int id)
 	c = getchar();
 	if (c == 'y' || c == 'Y')
 		exit(0);
-	while (getchar() != '\n')
-		;
+	while (c != '\n' && c != EOF)
+		c = getchar();
+	if (c == EOF)
+		ft_error("\nBye.");
+	fflush(stdout);
 	ft_putchar('\n');
 	you_are_here();
 }

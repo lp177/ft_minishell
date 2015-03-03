@@ -78,7 +78,12 @@ void	read_cmd(void)
 
 	buff = read_line();
 	if (!buff || !*buff)
-		return ;
+	{
+		if (!buff)
+			ft_error("\nBye.");
+		else
+			return ;
+	}
 	if (!(arg = explode(buff, " \t")))
 		return ;
 	cmd = arg[0];

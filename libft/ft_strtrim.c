@@ -23,10 +23,12 @@ char	*ft_strtrim(char const *s)
 	f = -1;
 	while ((s[++f] >= 9 && s[f] <= 13) || s[f] == 32)
 		;
-	if ((e = ft_strlen(&s[f])) > f)
-		while ((s[--e] >= 9 && s[e] <= 13) || s[e] == 32)
-			;
-	e = e - f + 1;
+	if ((e = ft_strlen(&s[f]) + f) < 1)
+		return (ft_strnew(1));
+	while ((s[--e] >= 9 && s[e] <= 13) || s[e] == 32)
+		;
+	if (e < 1)
+		return (ft_strnew(1));
 	s2 = ft_strnew(e);
-	return (ft_strncpy(s2, &s[f], e));
+	return (ft_strncpy(s2, &s[f], e + 1));
 }
