@@ -54,9 +54,10 @@ void	launch_setenv(char **arg)
 	if (!arg[2])
 		cast = explode(arg[1], "=");
 	if ((arg[2] && (ft_strchr(arg[1], '=') || ft_strchr(arg[2], '=')))
-		|| ft_strchr(((tmp = ft_strchr(arg[1], '='))) ? tmp + 1 : NULL, '='))
+		|| ft_strchr(((tmp = ft_strchr(arg[1], '='))) ? tmp + 1 : NULL, '=')
+		|| !ft_strchr(arg[1], '='))
 	{
-		ft_putendl("Bad syntax. I don't want more than one equal.");
+		ft_putendl("Invalid syntax. (setenv index value overwrite)");
 		return ;
 	}
 	setenv((!arg[2] && cast) ? cast[0] : arg[1],
