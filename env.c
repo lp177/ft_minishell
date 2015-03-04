@@ -58,6 +58,11 @@ int		unsetenv(const char *index)
 	start = &env_s()->var;
 	if (!index || !(var = getvar(index)))
 		return (-1);
+	if (!ft_strcmp(index, "PATH") || !ft_strcmp(index, "PWD"))
+	{
+		ft_putendl("You can set me but you can't delete me. I'm necesary !");
+		return (0);
+	}
 	if (var == *start)
 		*start = var->next;
 	if (var->next)
